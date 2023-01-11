@@ -81,6 +81,20 @@ const displayMovements = function (movements) {
 };
 displayMovements(account1.movements);
 
+const createUsernames = function(accs) {
+  accs.forEach(function(acc) {
+     acc.username = acc.owner
+    .toLowerCase()
+    .split(' ') // returns array
+    .map(name => name[0]) // return array
+    .join('');
+  });
+};
+createUsernames(accounts);
+console.log(accounts);
+
+// const user = 'Steven Thomas Williams'; // username - stw
+
 /////////////////////////////////////////////////
 // LECTURES
 
@@ -93,48 +107,3 @@ const currencies = new Map([
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
-/*
-map returns a new array containing the results of applying an operation
-on all original array elements.
-
-The map method also has access to the current element, current index and the
-entire array.
-*/
-
-const eurToUsd = 1.1;
-
-// This is the way to go since JS developers have been using
-// functional programming
-console.log('--------------------MAP----------------------');
-const movementsUSD = movements.map(function(mov) {
-  return mov * eurToUsd;
-});
-console.log(movements);
-console.log(movementsUSD);
-
-console.log('--------------------ARROW----------------------');
-const movementsUSDarrow = movements.map(mov => mov * eurToUsd);
-console.log(movementsUSDarrow);
-
-console.log('--------------------FOR----------------------');
-const movementsUSDfor = [];
-for(const mov of movements) movementsUSDfor.push(mov * eurToUsd);
-console.log(movementsUSDfor);
-
-console.log('------------------------------------------');
-
-/*
-This is not the same as the forEach method. The difference is that before
-each line was printed individually to the console as the array was being looped. This
-can be called a side effect, so the forEach method creates side effects. The map method
-all it did was to return each of the strings from the callback, basically they got added
-into a new array, and the array was logged. A side effect was not created, all it did was
-to build a brand new array.
-*/
-
-const movementsDescriptions = movements.map(
-  (mov, i) =>
-    `Movement ${i + 1}: You ${mov > 0 ? 'deposited' : 'withdrew'} ${Math.abs(mov)}`
-);
-
-console.log(movementsDescriptions);
