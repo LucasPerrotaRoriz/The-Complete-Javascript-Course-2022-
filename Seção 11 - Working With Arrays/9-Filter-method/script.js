@@ -61,16 +61,6 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
-/*
-Its good practice to pass the data into a function, instead of having the
-function work with a global variable.
-
-To insert the html use the insertAdjacentHTML
-
-innerHTML is a little bit similar to textContent, the difference is that textContent
-simply returns the text itself while innerHTML returns everything including the HTML.
-All the HTML tags will be included.
-*/
 const displayMovements = function (movements) {
   containerMovements.innerHTML = '';
 
@@ -86,18 +76,25 @@ const displayMovements = function (movements) {
       </div>
     `;
 
-    // Check MDN for the other values
     containerMovements.insertAdjacentHTML('afterBegin', html);
-    //containerMovements.insertAdjacentHTML('beforebegin', html);
-    //containerMovements.insertAdjacentHTML('beforeend', html);
-    //containerMovements.insertAdjacentHTML('afterend', html);
   });
 };
 displayMovements(account1.movements);
 
-// console.log(containerMovements.innerHTML);
-// console.log(containerMovements.textContent);
-/////////////////////////////////////////////////
+const createUsernames = function(accs) {
+  accs.forEach(function(acc) {
+     acc.username = acc.owner
+    .toLowerCase()
+    .split(' ') // returns array
+    .map(name => name[0]) // return array
+    .join('');
+  });
+};
+createUsernames(accounts);
+// console.log(accounts);
+
+// const user = 'Steven Thomas Williams'; // username - stw
+
 /////////////////////////////////////////////////
 // LECTURES
 
@@ -110,3 +107,22 @@ const currencies = new Map([
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
+
+const deposits = movements.filter(function(mov) {
+  return mov > 0;
+});
+
+const withdrawals = movements.filter(mov => mov < 0);
+
+console.log(movements);
+console.log(deposits);
+console.log(withdrawals);
+
+/*
+The difference between the filter and the for of is that in JS there is
+a push for using more functional code. There is also a practical implication
+because filter can be chained.
+*/
+const depositsFor = [];
+for(const mov of movements) if (mov > 0) depositsFor.push(mov);
+console.log(depositsFor);
